@@ -1,0 +1,214 @@
+<!-- Modal -->
+<div #myEmpModel class="modal fade" id="addeditempmodal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Add/Edit Employee information</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="formAdd">
+                    <form autocomplete="off" #myForm="ngForm" (ngSubmit)="myForm.form.valid && submit(myForm) ">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <input type="hidden" name="id" [value]="empService.employeeData.id">
+
+                                    <label for="name">First Name</label>
+
+                                    <input type="text" name="firstName" class="form-control"
+                                        placeholder="Enter first name" #firstName="ngModel"
+                                        [(ngModel)]="empService.employeeData.firstName" required>
+                                    <div *ngIf="firstName.invalid && (firstName.touched || firstName.dirty)">
+                                        <p class="text-danger">First name is required field</p>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+
+                                    <label for="lastName">Last Name</label>
+
+                                    <input type="text" name="lastName" class="form-control"
+                                        placeholder="Enter last name" #lastName="ngModel"
+                                        [(ngModel)]="empService.employeeData.lastName" required>
+                                    <div *ngIf="lastName.invalid && lastName.touched">
+                                        <p class="text-danger">Last name is required field</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mt-2">
+                                <div class="col-md-6">
+
+                                    <label for="lastName">Email</label>
+
+                                    <input type="email" name="email" class="form-control" placeholder="Enter email"
+                                        #email="ngModel" [(ngModel)]="empService.employeeData.email" required>
+                                    <div *ngIf="email.invalid && email.touched">
+                                        <p class="text-danger">email is required field</p>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+
+                                    <label for="lastName">Age</label>
+
+                                    <input type="number" name="age" class="form-control" placeholder="Enter age"
+                                        #age="ngModel" [(ngModel)]="empService.employeeData.age" required>
+                                    <div *ngIf="age.invalid && age.touched">
+                                        <p class="text-danger">email is required field</p>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="row mt-2">
+
+                                <div class="col-md-6">
+                                    <label for="lastName">Doj</label>
+                                    <input type="date" name="doj" class="form-control" #doj="ngModel"
+                                        [(ngModel)]="empService.employeeData.doj" required>
+                                    <div *ngIf="doj.invalid && doj.touched">
+                                        <p class="text-danger">email is required field</p>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="designation" class="label">Designation</label>
+                                    <select name="designationId" class="form-control" #designationID="ngModel"
+                                        [(ngModel)]="empService.employeeData.designationID" required>
+                                        <option value="0">--Please Select--</option>
+                                        <option [ngValue]="desg.id" *ngFor="let desg of empService.listDesignation">
+                                            {{desg.designation}}
+                                        </option>
+                                    </select>
+                                    <div *ngIf="designationID.touched && designationID.value==0">
+                                        <p class="text-danger">designation is required field</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mt-2">
+                                <div class="col-md-12">
+                                    <label for="gender">Gender</label>
+                                    <div class="row">
+                                        <div class="col">
+                                            <div class="form-check-inline">
+                                                <label class="form-check-label">
+                                                    <input type="radio" checked="true" class="form-check-input" name="gender"
+                                                        #gender="ngModel" [(ngModel)]="empService.employeeData.gender"
+                                                        value="male">
+                                                    Male
+                                                </label>
+                                            </div>
+                                            <div class="form-check-inline">
+                                                <label class="form-check-label">
+                                                    <input type="radio" class="form-check-input" name="gender" #gender="ngModel"
+                                                        [(ngModel)]="empService.employeeData.gender" value="female">
+                                                    Female
+                                                </label>
+                                            </div>
+                                            <div class="form-check-inline">
+                                                <label class="form-check-label">
+                                                    <input type="radio" class="form-check-input" name="gender" #gender="ngModel"
+                                                        [(ngModel)]="empService.employeeData.gender" value="other">
+                                                    Other
+                                                </label>
+                                            </div>
+                                        </div>
+                                        
+                                    </div>
+                                 
+                                </div>
+                               
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col-md-12">
+                                    <div class="form-check-inline">
+                                        <label class="form-check-label">
+                                            <input type="checkbox" class="form-check-input" name="isMarried"
+                                                #isMarried="ngModel" [(ngModel)]="empService.employeeData.isMarried">
+                                            Married
+                                        </label>
+                                    </div>
+                                    <div class="form-check-inline">
+                                        <label class="form-check-label">
+                                            <input type="checkbox" class="form-check-input" name="isActive"
+                                                #isActive="ngModel" [(ngModel)]="empService.employeeData.isActive">
+                                            Active
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row my-3">
+                                <div class="col-md-4">
+                                    <button type="submit" [disabled]="designationID.value==0 || myForm.invalid"
+                                        class="btn btn-success btn-block">
+                                        Save
+                                    </button>
+                                </div>
+                                <div class="col-md-4">
+                                    <button type="button" data-dismiss="modal" class="btn btn-danger btn-block">
+                                        Cancel
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<button type="button" (click)="openModel()" class="btn btn-info my-4"><i
+        class="fas fa-plus-circle mr-1"></i><b>Add Employee</b></button>
+<table class="table table-hover table-bordered table-striped ">
+    <thead class="thead-dark">
+        <tr>
+            <th>Name</th>
+            <th>Last Name</th>
+            <th>Email</th>
+            <th>Date of join</th>
+            <th>Desgignation</th>
+            <th>Age</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+
+    <tbody>
+
+
+        <div *ngIf="empService.listEmployee.length ==0; else empdata" class="mx-auto my-2 text-center">
+            <tr>
+                <td>
+                    <p class="text-muted">No Data Found.. Click on Add btn to add data.</p>
+                </td>
+            </tr>
+        </div>
+
+        <ng-template #empdata>
+
+            <tr *ngFor="let emp of empService.listEmployee">
+                <td>{{emp.firstName}}</td>
+                <td>{{emp.lastName}}</td>
+                <td>{{emp.email}}</td>
+                <td>{{emp.doj | date:'yyyy-MM-dd'}}</td>
+                <td>{{emp.designationEmp}}</td>
+                <td>{{emp.age}}</td>
+                <td>
+                    <ul class="list-inline m-0">
+
+                        <li class="list-inline-item">
+                            <a class="btn btn-success btn-sm rounded-0" data-toggle="modal"
+                                data-target="#addeditempmodal" (click)="editEmployee(emp)"><i class="fa fa-edit"
+                                    style="color:#fff"></i></a>
+                        </li>
+                        <li class="list-inline-item">
+                            <a class="btn btn-danger btn-sm rounded-0" href="#" (click)="deleteEmployee(emp.id)"><i
+                                    class="fa fa-trash"></i></a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+
+        </ng-template>
+    </tbody>
+</table>
