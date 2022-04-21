@@ -4,6 +4,7 @@ import { NgForm } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { Employee } from '../shared/employee.Model';
 import { EmployeeService } from '../shared/employee.service';
+import { ModalDirective } from 'ngx-bootstrap/modal';
 
 @Component({
   selector: 'app-employee-main',
@@ -13,13 +14,16 @@ import { EmployeeService } from '../shared/employee.service';
 export class EmployeeMainComponent implements OnInit {
 
   constructor(public empService:EmployeeService, public datePipe:DatePipe, public toast:ToastrService) { }
-  @ViewChild('myEmpModel') myEmpModel:ElementRef;
+  @ViewChild('myEmpModel') myEmpModel:ModalDirective;
 
-  openModel() {
-    this.myEmpModel.nativeElement.className = 'modal fade show';
+  openModel(myForm:NgForm) {
+
+    this.myEmpModel.show();
+    this.resetForm(myForm);
+    this.refereshData();
   }
   closeModel() {
-     this.myEmpModel.nativeElement.className = 'modal hide';
+    this.myEmpModel.hide();
   }
 
   ngOnInit(): void {
@@ -71,6 +75,7 @@ export class EmployeeMainComponent implements OnInit {
       this.refereshData();
       this.toast.success("Success","Record Saved")
       console.log("saved success")
+      this.closeModel();
     })
 
   }
@@ -81,6 +86,7 @@ export class EmployeeMainComponent implements OnInit {
       this.refereshData();
       this.toast.success("Success","Record Updated")
       console.log("updated success")
+      this.closeModel();
     })
   }
   resetForm(myForm:NgForm)

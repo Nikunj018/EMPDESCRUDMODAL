@@ -1,10 +1,10 @@
 <!-- Modal -->
-<div #myEmpModel class="modal fade" id="addeditempmodal" tabindex="-1" role="dialog" aria-hidden="true">
+<div bsModal #myEmpModel="bs-modal" class="modal fade" id="addeditempmodal" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Add/Edit Employee information</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="closeModel()">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
@@ -145,7 +145,7 @@
                                     </button>
                                 </div>
                                 <div class="col-md-4">
-                                    <button type="button" data-dismiss="modal" class="btn btn-danger btn-block">
+                                    <button type="button" data-dismiss="modal" (click)="closeModel()" class="btn btn-danger btn-block">
                                         Cancel
                                     </button>
                                 </div>
@@ -158,7 +158,7 @@
     </div>
 </div>
 
-<button type="button" (click)="openModel()" class="btn btn-info my-4"><i
+<button type="button" (click)="openModel(myForm)" class="btn btn-info my-4"><i
         class="fas fa-plus-circle mr-1"></i><b>Add Employee</b></button>
 <table class="table table-hover table-bordered table-striped ">
     <thead class="thead-dark">
@@ -174,8 +174,6 @@
     </thead>
 
     <tbody>
-
-
         <div *ngIf="empService.listEmployee.length ==0; else empdata" class="mx-auto my-2 text-center">
             <tr>
                 <td>
